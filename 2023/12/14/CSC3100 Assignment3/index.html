@@ -21,13 +21,15 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"betterandbetterii.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.19.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":true,"motion":{"enable":false,"async":true,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
 
-    <meta property="og:type" content="article">
-<meta property="og:title" content="CSC3100 Assignment3">
+    <meta name="description" content="这里是CSC3100 Assignment3的笔记，希望对你有帮助！ 有关树型动态规划&amp;红黑树">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CSC3100 Assignment3[未完成]">
 <meta property="og:url" content="http://betterandbetterii.github.io/2023/12/14/CSC3100%20Assignment3/index.html">
 <meta property="og:site_name" content="BetterSpace">
+<meta property="og:description" content="这里是CSC3100 Assignment3的笔记，希望对你有帮助！ 有关树型动态规划&amp;红黑树">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2023-12-13T16:00:00.000Z">
-<meta property="article:modified_time" content="2023-12-14T15:43:54.031Z">
+<meta property="article:published_time" content="2023-12-14T15:45:00.000Z">
+<meta property="article:modified_time" content="2023-12-14T16:09:23.442Z">
 <meta property="article:author" content="越来越好的鸡翅">
 <meta property="article:tag" content="计算机">
 <meta property="article:tag" content="Java">
@@ -39,10 +41,10 @@
 
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://betterandbetterii.github.io/2023/12/14/CSC3100%20Assignment3/","path":"2023/12/14/CSC3100 Assignment3/","title":"CSC3100 Assignment3"}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://betterandbetterii.github.io/2023/12/14/CSC3100%20Assignment3/","path":"2023/12/14/CSC3100 Assignment3/","title":"CSC3100 Assignment3[未完成]"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>CSC3100 Assignment3 | BetterSpace</title>
+<title>CSC3100 Assignment3[未完成] | BetterSpace</title>
   
 
 
@@ -102,7 +104,7 @@
   
   <aside class="sidebar">
 
-    <div class="sidebar-inner sidebar-overview-active">
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
       <ul class="sidebar-nav">
         <li class="sidebar-nav-toc">
           文章目录
@@ -115,6 +117,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BF%99%E9%87%8C%E6%98%AFCSC3100-Assignment3%E7%9A%84%E7%AC%94%E8%AE%B0%EF%BC%8C%E5%B8%8C%E6%9C%9B%E5%AF%B9%E4%BD%A0%E6%9C%89%E5%B8%AE%E5%8A%A9%EF%BC%81"><span class="nav-number">1.</span> <span class="nav-text">这里是CSC3100 Assignment3的笔记，希望对你有帮助！</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-Node-Distance"><span class="nav-number"></span> <span class="nav-text">1 Node Distance</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-Description"><span class="nav-number">1.</span> <span class="nav-text">1.1 Description</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-Input"><span class="nav-number">2.</span> <span class="nav-text">1.2 Input</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-Price-Sequence"><span class="nav-number"></span> <span class="nav-text">2 Price Sequence</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1Description"><span class="nav-number">1.</span> <span class="nav-text">2.1Description</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-Input"><span class="nav-number">2.</span> <span class="nav-text">2.2 Input</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%9C%AA%E5%AE%8C%E5%BE%85%E7%BB%AD"><span class="nav-number"></span> <span class="nav-text">[未完待续]</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Download-Links"><span class="nav-number"></span> <span class="nav-text">Download Links</span></a></div>
         </div>
         <!--/noindex-->
 
@@ -180,12 +183,12 @@
     </span>
 
     <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="CSC3100 Assignment3 | BetterSpace">
+      <meta itemprop="name" content="CSC3100 Assignment3[未完成] | BetterSpace">
       <meta itemprop="description" content="">
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          CSC3100 Assignment3
+          CSC3100 Assignment3[未完成]
         </h1>
 
         <div class="post-meta-container">
@@ -195,9 +198,15 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">发表于</span>
-      
 
-      <time title="创建时间：2023-12-14 00:00:00 / 修改时间：23:43:54" itemprop="dateCreated datePublished" datetime="2023-12-14T00:00:00+08:00">2023-12-14</time>
+      <time title="创建时间：2023-12-14 23:45:00" itemprop="dateCreated datePublished" datetime="2023-12-14T23:45:00+08:00">2023-12-14</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2023-12-15 00:09:23" itemprop="dateModified" datetime="2023-12-15T00:09:23+08:00">2023-12-15</time>
     </span>
 
   
@@ -209,8 +218,26 @@
     
     
     
-    <div class="post-body" itemprop="articleBody"><span id="more"></span>
-<div class="pdf-container" data-target="https://github.com/BetterAndBetterII/BetterAndBetterII.github.io/blob/main/pdf/xid-6673999_AS_3.pdf" data-height="500px"></div>
+    <div class="post-body" itemprop="articleBody"><!-- 摘要 -->
+<h3 id="这里是CSC3100-Assignment3的笔记，希望对你有帮助！"><a href="#这里是CSC3100-Assignment3的笔记，希望对你有帮助！" class="headerlink" title="这里是CSC3100 Assignment3的笔记，希望对你有帮助！"></a>这里是CSC3100 Assignment3的笔记，希望对你有帮助！</h3><ul>
+<li>有关树型动态规划&amp;红黑树<span id="more"></span>
+<!-- ![pic](/pics/csc3100as3Q1.png "第一题") --></li>
+</ul>
+<h2 id="1-Node-Distance"><a href="#1-Node-Distance" class="headerlink" title="1 Node Distance"></a>1 Node Distance</h2><h3 id="1-1-Description"><a href="#1-1-Description" class="headerlink" title="1.1 Description"></a>1.1 Description</h3><p> You are given a tree with $n$ nodes, where each edge in the tree has a corresponding weight denoting the<br> length of each edge. The nodes in the tree are colored either black or white. Your task is to calculate the sum of distances between every pair of black nodes in the tree. Let $B&#x3D;{b_1,b_2,…}$ a set of black nodes, then the answer is formulated as:<br>$$Ans&#x3D;\sum_{i&#x3D;1}^{|B|-1}\sum_{j&#x3D;i+1}^{|B|}\operatorname{dist}(b_i,b_j)$$<br>where $|B|$ denotes the number of the black nodes in the tree, and $\det(b_i,b_j)$ is the length of the simple path from the $i$-th to $j$-th black node.<br> Write a program to calculate the sum of distances on the tree between every pair of black nodes $Ans$<br> in the given tree.</p>
+<h3 id="1-2-Input"><a href="#1-2-Input" class="headerlink" title="1.2 Input"></a>1.2 Input</h3><p> The first line contains an integer $n$, representing the number of nodes in the tree.<br> The second line contains $n$ space-separated integers ${c_1,c_2,\ldots,c_i,\ldots,c_n}$ where $c_i$ is either 0 or l.<br> $c_i&#x3D; 1$ indicates that the $i$-th node is black, and $c_i&#x3D;0$ indicates that the $i$-th node is white.<br> The following $n-1\operatorname*{lines},{l_1,l_2,\ldots,l_p,\ldots,l_{n-1}}$, denoting the structure of the tree follow, each line<br> $l_p$ contains 2 integers $q_p$ and $w_p$, denoting an edge of length $w_p$ between the $\color{red}{p+1}$-th node and the $q_{p^-}th$ node.</p>
+<h2 id="2-Price-Sequence"><a href="#2-Price-Sequence" class="headerlink" title="2 Price Sequence"></a>2 Price Sequence</h2><h3 id="2-1Description"><a href="#2-1Description" class="headerlink" title="2.1Description"></a>2.1Description</h3><p> Mario bought $n$ math books and he recorded their prices. The prices are all integers, and the price<br> sequence is $a&#x3D;{a_0,a_2,…a_i,…,a_{n-1}}$ of length $n\left(n\leq100000\right)$ .Please help him to manage this price sequence. There are three types of operations:</p>
+<ul>
+<li>BUY x: buy a new book with price $x$, thus $x$ is added at the end of $a.$ </li>
+<li>CLOSEST ADJ PRICE: output the minimum absolute difference between adjacent prices.</li>
+<li>CLOSEST-PRICE: output the absolute difference between the two closest prices in the entire sequence.</li>
+</ul>
+<p>A total of $m$ operations are performed $(1\leq m\leq100000)$. Each operation is one of the three mentioned types. You need to write a program to perform given operations. For operations “CLOSEST_ADJ PRICE” and “CLOSEST PRICE” you need to output the corresponding answers.</p>
+<h3 id="2-2-Input"><a href="#2-2-Input" class="headerlink" title="2.2 Input"></a>2.2 Input</h3><p> The first line contains two integers $n$ and $m$, representing the length of the original sequence and the<br> number of operations.<br> The second line consists of $n$ integers, representing the initial sequence $a.$<br> Following that are $m$ lines, each containing one operation: either BUY x, CLOSEST_ADJ PRICE, or<br> CLOSEST PRICE (without extra spaces or empty lines).</p>
+<h1 id="未完待续"><a href="#未完待续" class="headerlink" title="[未完待续]"></a>[未完待续]</h1><!-- 下载链接 -->
+<h2 id="Download-Links"><a href="#Download-Links" class="headerlink" title="Download Links"></a>Download Links</h2><ul>
+<li><a href="/pdf/xid-6673999_AS_3.pdf" title="作业原文档下载">CSC3100 Assignment3</a></li>
+</ul>
+
     </div>
 
     
@@ -228,11 +255,11 @@
 
           <div class="post-nav">
             <div class="post-nav-item">
+                <a href="/2023/12/14/%E5%8C%96%E5%AD%A6%E6%9C%9F%E6%9C%ABcp/" rel="prev" title="化学期末cp[未完成]">
+                  <i class="fa fa-angle-left"></i> 化学期末cp[未完成]
+                </a>
             </div>
             <div class="post-nav-item">
-                <a href="/2023/12/14/hello-world/" rel="next" title="Hello World!">
-                  Hello World! <i class="fa fa-angle-right"></i>
-                </a>
             </div>
           </div>
     </footer>
