@@ -2208,14 +2208,6 @@ ul.breadcrumb li:last-child {
   border-bottom-color: #111;
   color: #111;
 }
-.gt-header a,
-.gt-comments a,
-.gt-popup a {
-  border-bottom: 0;
-}
-.gt-container .gt-popup .gt-action.is--active::before {
-  top: 0.7em;
-}
 mjx-container[jax='CHTML'][display='true'],
 .has-jax {
   overflow: auto hidden;
@@ -2555,4 +2547,8 @@ header.header {
   .comments {
     padding: 10px 12px;
   }
+}
+.giscus {
+  max-width: unset;
+  box-sizing: border-box;
 }
