@@ -28,13 +28,15 @@
 <meta property="og:site_name" content="BetterSpace">
 <meta property="og:description" content="这里是CSC3100 Assignment3的笔记，希望对你有帮助！ 有关树型动态规划&amp;红黑树">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://betterspace.top/pdf/TreeDP.jpg">
 <meta property="article:published_time" content="2023-12-14T15:45:00.000Z">
-<meta property="article:modified_time" content="2023-12-14T16:31:40.559Z">
+<meta property="article:modified_time" content="2023-12-17T05:01:00.171Z">
 <meta property="article:author" content="越来越好的鸡翅">
 <meta property="article:tag" content="计算机">
 <meta property="article:tag" content="Java">
 <meta property="article:tag" content="Python">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://betterspace.top/pdf/TreeDP.jpg">
 
 
 <link rel="canonical" href="http://betterspace.top/2023/12/14/CSC3100%20Assignment3/">
@@ -117,7 +119,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-Node-Distance"><span class="nav-number">1.</span> <span class="nav-text">1 Node Distance</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-Description"><span class="nav-number">1.1.</span> <span class="nav-text">1.1 Description</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-Input"><span class="nav-number">1.2.</span> <span class="nav-text">1.2 Input</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-Price-Sequence"><span class="nav-number">2.</span> <span class="nav-text">2 Price Sequence</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1Description"><span class="nav-number">2.1.</span> <span class="nav-text">2.1Description</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-Input"><span class="nav-number">2.2.</span> <span class="nav-text">2.2 Input</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%9C%AA%E5%AE%8C%E5%BE%85%E7%BB%AD"><span class="nav-number"></span> <span class="nav-text">[未完待续]</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Download-Links"><span class="nav-number">1.</span> <span class="nav-text">Download Links</span></a></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-Node-Distance"><span class="nav-number">1.</span> <span class="nav-text">1 Node Distance</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-Description"><span class="nav-number">1.1.</span> <span class="nav-text">1.1 Description</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-Input"><span class="nav-number">1.2.</span> <span class="nav-text">1.2 Input</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%9D%E8%B7%AF"><span class="nav-number">2.</span> <span class="nav-text">思路</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%AF%E8%83%BD%E7%9A%84%E7%AE%97%E6%B3%95"><span class="nav-number">2.1.</span> <span class="nav-text">可能的算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%9D%E8%B7%AF1-%E5%BE%AA%E7%8E%AF%E6%AF%8F%E4%B8%80%E5%AF%B9%E9%BB%91%E8%89%B2%E8%8A%82%E7%82%B9%EF%BC%8C%E5%AF%BB%E6%89%BE%E5%85%B6LCA%EF%BC%8C%E7%84%B6%E5%90%8E%E8%AE%A1%E7%AE%97%E8%B7%9D%E7%A6%BB%EF%BC%8C%E6%9C%80%E5%90%8E%E7%9B%B8%E5%8A%A0%E3%80%82"><span class="nav-number">2.2.</span> <span class="nav-text">思路1 循环每一对黑色节点，寻找其LCA，然后计算距离，最后相加。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BC%98%E5%8C%96%E7%9A%84%E6%80%9D%E8%B7%AF1-%E6%88%91%E4%BB%AC%E5%8F%AF%E4%BB%A5%E8%80%83%E8%99%91%E4%BD%BF%E7%94%A8%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92%E7%9A%84%E6%80%9D%E6%83%B3%E3%80%82"><span class="nav-number">2.3.</span> <span class="nav-text">优化的思路1 我们可以考虑使用动态规划的思想。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%9D%E8%B7%AF2-%E6%88%91%E4%BB%AC%E5%8F%AF%E4%BB%A5%E8%80%83%E8%99%91%E4%BD%BF%E7%94%A8%E6%A0%91%E5%9E%8B%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92%E7%9A%84%E6%80%9D%E6%83%B3%E3%80%82"><span class="nav-number">2.4.</span> <span class="nav-text">思路2 我们可以考虑使用树型动态规划的思想。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Tarjan%E7%AE%97%E6%B3%95-%E6%88%91%E4%BB%AC%E5%8F%AF%E4%BB%A5%E8%80%83%E8%99%91%E4%BD%BF%E7%94%A8Tarjan%E7%AE%97%E6%B3%95%E3%80%82%EF%BC%88%E8%BF%98%E6%B2%A1%E5%B0%9D%E8%AF%95%EF%BC%89"><span class="nav-number">2.5.</span> <span class="nav-text">Tarjan算法 我们可以考虑使用Tarjan算法。（还没尝试）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-Price-Sequence"><span class="nav-number">3.</span> <span class="nav-text">2 Price Sequence</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1Description"><span class="nav-number">3.1.</span> <span class="nav-text">2.1Description</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-Input"><span class="nav-number">3.2.</span> <span class="nav-text">2.2 Input</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%9C%AA%E5%AE%8C%E5%BE%85%E7%BB%AD"><span class="nav-number"></span> <span class="nav-text">[未完待续]</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Download-Links-%E4%BD%9C%E4%B8%9A%E5%8E%9F%E6%96%87%E6%A1%A3%E4%B8%8B%E8%BD%BD"><span class="nav-number">1.</span> <span class="nav-text">Download Links 作业原文档下载</span></a></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -206,7 +208,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2023-12-15 00:31:40" itemprop="dateModified" datetime="2023-12-15T00:31:40+08:00">2023-12-15</time>
+      <time title="修改时间：2023-12-17 13:01:00" itemprop="dateModified" datetime="2023-12-17T13:01:00+08:00">2023-12-17</time>
     </span>
 
   
@@ -225,6 +227,72 @@
 </ul>
 <h2 id="1-Node-Distance"><a href="#1-Node-Distance" class="headerlink" title="1 Node Distance"></a>1 Node Distance</h2><h3 id="1-1-Description"><a href="#1-1-Description" class="headerlink" title="1.1 Description"></a>1.1 Description</h3><p> You are given a tree with $n$ nodes, where each edge in the tree has a corresponding weight denoting the<br> length of each edge. The nodes in the tree are colored either black or white. Your task is to calculate the sum of distances between every pair of black nodes in the tree. Let $B&#x3D;{b_1,b_2,…}$ a set of black nodes, then the answer is formulated as:<br>$$Ans&#x3D;\sum_{i&#x3D;1}^{|B|-1}\sum_{j&#x3D;i+1}^{|B|}\operatorname{dist}(b_i,b_j)$$<br>where $|B|$ denotes the number of the black nodes in the tree, and $\det(b_i,b_j)$ is the length of the simple path from the $i$-th to $j$-th black node.<br> Write a program to calculate the sum of distances on the tree between every pair of black nodes $Ans$<br> in the given tree.</p>
 <h3 id="1-2-Input"><a href="#1-2-Input" class="headerlink" title="1.2 Input"></a>1.2 Input</h3><p> The first line contains an integer $n$, representing the number of nodes in the tree.<br> The second line contains $n$ space-separated integers ${c_1,c_2,\ldots,c_i,\ldots,c_n}$ where $c_i$ is either 0 or l.<br> $c_i&#x3D; 1$ indicates that the $i$-th node is black, and $c_i&#x3D;0$ indicates that the $i$-th node is white.<br> The following $n-1\operatorname*{lines},{l_1,l_2,\ldots,l_p,\ldots,l_{n-1}}$, denoting the structure of the tree follow, each line<br> $l_p$ contains 2 integers $q_p$ and $w_p$, denoting an edge of length $w_p$ between the $\color{red}{p+1}$-th node and the $q_{p^-}th$ node.</p>
+<h2 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h2><h3 id="可能的算法"><a href="#可能的算法" class="headerlink" title="可能的算法"></a>可能的算法</h3><p>因为我们要计算的是每一对黑色节点之间的距离，所以我们可以考虑使用动态规划的思想，即将问题分解为子问题，然后逐步求解。</p>
+<p>我们先想一下，如果我们要计算一对黑色节点之间的距离，我们可以怎么做呢？</p>
+<p>学过树的话，大家肯定都知道LCA-最近公共祖先，我们可以通过LCA来计算两个节点之间的距离。</p>
+<pre><code>比如我要计算节点a和节点b之间的距离，那么我们可以先找到他们的LCA，然后计算a到LCA的距离和b到LCA的距离，然后相加即可。
+</code></pre>
+<p>所以我们有了一个算法：</p>
+<h3 id="思路1-循环每一对黑色节点，寻找其LCA，然后计算距离，最后相加。"><a href="#思路1-循环每一对黑色节点，寻找其LCA，然后计算距离，最后相加。" class="headerlink" title="思路1 循环每一对黑色节点，寻找其LCA，然后计算距离，最后相加。"></a>思路1 循环每一对黑色节点，寻找其LCA，然后计算距离，最后相加。</h3><p>这个思路的时间复杂度是$O(n^3)$，因为我们要循环每一对黑色节点，然后寻找LCA，这个过程的时间复杂度是$O(n)$（这里还不可以用大跳优化到$O(logn)$），所以总的时间复杂度是$O(n^3)$。</p>
+<p>很明显，这个算法太慢了，我们需要优化。</p>
+<h3 id="优化的思路1-我们可以考虑使用动态规划的思想。"><a href="#优化的思路1-我们可以考虑使用动态规划的思想。" class="headerlink" title="优化的思路1 我们可以考虑使用动态规划的思想。"></a>优化的思路1 我们可以考虑使用动态规划的思想。</h3><p>因为如果我们要找到一个黑色节点到LCA的距离，只能一步一步地向上去找，直到抵达LCA。</p>
+<p>深入思考一下，我们可以运用树差分的思想：<br>    计算两个节点之间的距离 &#x3D; 两个节点到根节点的距离和 - LCA到根节点的距离的两倍</p>
+<p>这个思路的优越性在于，任意一个节点到根节点的距离只需要计算一次！如果后续我们需要这些数据，我们直接取用即可！</p>
+<p>更进一步，我们还可以再用一个动态规划：<br>    计算某个节点到根节点的距离，我们只需要用这个节点的父节点到根节点的距离加上这个节点到父节点的距离即可！</p>
+<p><strong>大跳优化</strong> 我们可以考虑使用大跳优化：<br>    即我们在计算之前，我们先遍历一次树。假设某个节点的深度为$d$，我们储存这个节点的第$2^i$个祖先，这个祖先的深度为$d-2^i$，这样我们就可以在$O(logn)$的时间内找到任意一个节点的第2^i个祖先。</p>
+<p><strong>复杂度分析</strong></p>
+<ul>
+<li><p>计算每个节点到根节点的距离：这一步可以通过一次深度优先搜索（DFS）完成。在这个DFS过程中，每个节点被访问一次，并且在访问其子节点时，我们更新子节点到根节点的距离。这一步的时间复杂度是$O(N)$，其中 N 是树中节点的数量。</p>
+</li>
+<li><p>寻找最低公共祖先（LCA）：这通常通过预处理父节点数组来实现，使得每次查询的复杂度可以降至$O(1)$（例如使用二进制提升方法）。预处理的复杂度是$ O(NlogN)$。</p>
+</li>
+<li><p>计算两个节点之间的距离：使用树差分的思想，可以在$O(1)$时间内完成，因为我们已经预处理了到根节点的距离。所以，我们可以先计算每个节点到根节点的距离，然后再寻找LCA，最后累加黑色节点间的距离即可，这样的时间复杂度是$O(n^2)$。</p>
+</li>
+<li><p>累加黑色节点间的距离：如果黑色节点的数量是$K$，那么在最坏的情况下，需要进行$O(K^2)$次LCA查询和距离计算，因为你可能需要考虑所有黑色节点对之间的距离。所以，这一步的时间复杂度是$O(K^2)$。</p>
+</li>
+<li><p>预处理：$O(Nlong(N))$（计算到根节点的距离和预处理LCA查询）</p>
+</li>
+<li><p>查询和计算距离：$O(K^2)$（对于所有黑色节点对）</p>
+</li>
+<li><p><strong>总的时间复杂度</strong>：$O(Nlog(N)+K^2)$</p>
+</li>
+</ul>
+<p>但是这个算法还是太慢了，我们还需要优化！</p>
+<h3 id="思路2-我们可以考虑使用树型动态规划的思想。"><a href="#思路2-我们可以考虑使用树型动态规划的思想。" class="headerlink" title="思路2 我们可以考虑使用树型动态规划的思想。"></a>思路2 我们可以考虑使用树型动态规划的思想。</h3><p>我们希望只遍历一次树，就可以算出所有的距离。而不是像思路1那样，针对每一对黑色节点，都要遍历一次树。</p>
+<p>这里用到了Bell同学的思路，这是一张示意图：</p>
+<p><img src="/pdf/TreeDP.jpg" alt="树型动态规划" title="树型动态规划"></p>
+<p>我们可以看到，这里用到了一个更加复杂的状态转移方程：<br>$$f(u) &#x3D; f(fa(u)) + siz(A) - siz(B)$$<br>其中：</p>
+<ul>
+<li>$f(u)$表示以节点$u$为根的子树中，所有黑色节点到节点$u$的距离之和。</li>
+<li>$fa(u)$表示节点$u$的父节点。</li>
+<li>$siz(A)$表示集合A中，所有黑色节点的数量。</li>
+<li>$siz(B)$表示集合B中，所有黑色节点的数量，也就是节点$u$的子树中，黑色节点的数量。</li>
+</ul>
+<p>状态是如何转移的呢？</p>
+<p>注意到，<br>$$Ans &#x3D; \frac{1}{2}\sum_{u\in BlackNodes} f(u), $$<br>就是我们要求的答案。</p>
+<!-- u属于黑色节点集合 -->
+
+<p>我们可以看到，$f(u)$是由$f(fa(u))$转移而来的，而$f(fa(u))$是由$f(fa(fa(u)))$转移而来的，而$f(fa(fa(u)))$是由$f(fa(fa(fa(u))))$转移而来的，以此类推。</p>
+<p>那么，我们可以得到一个结论：<br>    如果我们知道了$f(fa(u))$，那么我们就可以计算出$f(u)$。（假设siz已知）</p>
+<p>这提示我们可以从根节点开始，逐步向下计算。</p>
+<p>对于根节点<br>$$f(root) &#x3D; \sum_{u\in BlackNodes}distToRoot(u)$$</p>
+<p>因此，我们现在已经清楚了我们要什么：</p>
+<ul>
+<li>$distToRoot(u)$：节点$u$到根节点的距离</li>
+<li>$siz(A)$：集合$A$（节点$u$的子树）中，所有黑色节点的数量</li>
+</ul>
+<p><strong>复杂度分析</strong></p>
+<ul>
+<li>计算到根节点的距离$distToRoot()$：使用记忆化搜索，这部分的复杂度为$O(n)$。</li>
+<li>计算子树大小和黑色节点的距离$siz()$：这通过一次 DFS 实现，复杂度为$O(n)$。</li>
+<li>计算状态转移方程$f()$：节点数量决定，复杂度为$O(n)$。</li>
+<li>计算所有黑色节点的距离和：这部分的复杂度是$O(b^2)$，因为它基于每个黑色节点到根的距离和子树中黑色节点的数量。</li>
+</ul>
+<p>综上所述，这个算法的时间复杂度是：<br>$$O(n + b^2)$$<br>当$b$接近$n$时，这个算法的时间复杂度是$O(n^2)$。</p>
+<p>这是非常好的！</p>
+<h3 id="Tarjan算法-我们可以考虑使用Tarjan算法。（还没尝试）"><a href="#Tarjan算法-我们可以考虑使用Tarjan算法。（还没尝试）" class="headerlink" title="Tarjan算法 我们可以考虑使用Tarjan算法。（还没尝试）"></a>Tarjan算法 我们可以考虑使用Tarjan算法。（还没尝试）</h3><p>对于多次的查询，我们可能会想到并查集，<strong>Tarjan算法</strong>，在遍历树的同时，我们就可以找到LCA，还有一次性处理多个查询请求的好处（离线算法）。这个算法的时间复杂度是$O(n\alpha(n) + B^2\alpha(n))$，其中$\alpha(n)$是阿克曼函数的反函数，B是黑色节点的数量。</p>
+<p>在这里，$\alpha()$反阿克曼函数非常小，对于所有实际的输入大小，它几乎可以认为是一个很小的常数，通常不会超过 4。所以，尽管$\alpha(n)$ 在理论上慢于$log(n)$，但在实际的应用中，它的增长如此之慢，以至于可以认为它比$log(n)$小很多。</p>
+<p>因此，这个算法的时间复杂度是$O(n + B^2)$，这是一个非常好的结果。有兴趣的读者可以尝试一下哦！</p>
 <h2 id="2-Price-Sequence"><a href="#2-Price-Sequence" class="headerlink" title="2 Price Sequence"></a>2 Price Sequence</h2><h3 id="2-1Description"><a href="#2-1Description" class="headerlink" title="2.1Description"></a>2.1Description</h3><p> Mario bought $n$ math books and he recorded their prices. The prices are all integers, and the price<br> sequence is $a&#x3D;{a_0,a_2,…a_i,…,a_{n-1}}$ of length $n\left(n\leq100000\right)$ .Please help him to manage this price sequence. There are three types of operations:</p>
 <ul>
 <li>BUY x: buy a new book with price $x$, thus $x$ is added at the end of $a.$ </li>
@@ -234,7 +302,7 @@
 <p>A total of $m$ operations are performed $(1\leq m\leq100000)$. Each operation is one of the three mentioned types. You need to write a program to perform given operations. For operations “CLOSEST_ADJ PRICE” and “CLOSEST PRICE” you need to output the corresponding answers.</p>
 <h3 id="2-2-Input"><a href="#2-2-Input" class="headerlink" title="2.2 Input"></a>2.2 Input</h3><p> The first line contains two integers $n$ and $m$, representing the length of the original sequence and the<br> number of operations.<br> The second line consists of $n$ integers, representing the initial sequence $a.$<br> Following that are $m$ lines, each containing one operation: either BUY x, CLOSEST_ADJ PRICE, or<br> CLOSEST PRICE (without extra spaces or empty lines).</p>
 <h1 id="未完待续"><a href="#未完待续" class="headerlink" title="[未完待续]"></a>[未完待续]</h1><!-- 下载链接 -->
-<h2 id="Download-Links"><a href="#Download-Links" class="headerlink" title="Download Links"></a>Download Links</h2><ul>
+<h2 id="Download-Links-作业原文档下载"><a href="#Download-Links-作业原文档下载" class="headerlink" title="Download Links 作业原文档下载"></a>Download Links 作业原文档下载</h2><ul>
 <li><a href="/pdf/xid-6673999_AS_3.pdf" title="作业原文档下载">CSC3100 Assignment3</a></li>
 </ul>
 
