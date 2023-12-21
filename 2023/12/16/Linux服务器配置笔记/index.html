@@ -131,13 +131,13 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">7</span>
+          <span class="site-state-item-count">8</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-count">13</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -220,9 +220,17 @@
     <div class="post-body" itemprop="articleBody"><p>这篇小笔记将记录我的Linux服务器配置过程，以及一些常用的命令。</p>
 <p>用到的软件是Nginx，可以学习一下~</p>
 <span id="more"></span>
-<h1 id="配置Nginx"><a href="#配置Nginx" class="headerlink" title="配置Nginx"></a>配置Nginx</h1><p>配置托管静态文件的话，可以使用Nginx，配置方法如下：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo nano /etc/nginx/sites-available/demo</span><br></pre></td></tr></table></figure><br>然后在文件中写入以下内容：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">    listen 80;</span><br><span class="line">    server_name 139.159.***.***;</span><br><span class="line"></span><br><span class="line">    <span class="comment">#location / &#123;</span></span><br><span class="line">     <span class="comment">#   root /home/vue-project/demo/dist;</span></span><br><span class="line">      <span class="comment">#  index index.html;</span></span><br><span class="line">       <span class="comment"># try_files $uri $uri/ /index.html;</span></span><br><span class="line">    <span class="comment">#&#125;  这个是vue项目的配置，如果是其他项目，可以自行修改-托管静态文件</span></span><br><span class="line">    location / &#123;</span><br><span class="line">        proxy_pass http://localhost:8000;  <span class="comment"># 你的应用运行的地址和端口</span></span><br><span class="line">        proxy_set_header Host <span class="variable">$host</span>;</span><br><span class="line">        proxy_set_header X-Real-IP <span class="variable">$remote_addr</span>;</span><br><span class="line">        proxy_set_header X-Forwarded-For <span class="variable">$proxy_add_x_forwarded_for</span>;</span><br><span class="line">        proxy_set_header X-Forwarded-Proto <span class="variable">$scheme</span>; </span><br><span class="line">        <span class="comment"># 这个是反向代理的配置，转发8000端口到80端口</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>然后保存退出，执行以下命令：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo <span class="built_in">ln</span> -s /etc/nginx/sites-available/demo /etc/nginx/sites-enabled/ <span class="comment"># 创建软链接</span></span><br></pre></td></tr></table></figure></p>
-<p>然后重启Nginx：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo service nginx restart</span><br></pre></td></tr></table></figure></p>
+<h1 id="配置Nginx"><a href="#配置Nginx" class="headerlink" title="配置Nginx"></a>配置Nginx</h1><p>配置托管静态文件的话，可以使用Nginx，配置方法如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo nano /etc/nginx/sites-available/demo</span><br></pre></td></tr></table></figure>
+<p>然后在文件中写入以下内容：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">    listen 80;</span><br><span class="line">    server_name 139.159.***.***;</span><br><span class="line"></span><br><span class="line">    <span class="comment">#location / &#123;</span></span><br><span class="line">     <span class="comment">#   root /home/vue-project/demo/dist;</span></span><br><span class="line">      <span class="comment">#  index index.html;</span></span><br><span class="line">       <span class="comment"># try_files $uri $uri/ /index.html;</span></span><br><span class="line">    <span class="comment">#&#125;  这个是vue项目的配置，如果是其他项目，可以自行修改-托管静态文件</span></span><br><span class="line">    location / &#123;</span><br><span class="line">        proxy_pass http://localhost:8000;  <span class="comment"># 你的应用运行的地址和端口</span></span><br><span class="line">        proxy_set_header Host <span class="variable">$host</span>;</span><br><span class="line">        proxy_set_header X-Real-IP <span class="variable">$remote_addr</span>;</span><br><span class="line">        proxy_set_header X-Forwarded-For <span class="variable">$proxy_add_x_forwarded_for</span>;</span><br><span class="line">        proxy_set_header X-Forwarded-Proto <span class="variable">$scheme</span>; </span><br><span class="line">        <span class="comment"># 这个是反向代理的配置，转发8000端口到80端口</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>然后保存退出，执行以下命令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo <span class="built_in">ln</span> -s /etc/nginx/sites-available/demo /etc/nginx/sites-enabled/ <span class="comment"># 创建软链接</span></span><br></pre></td></tr></table></figure>
+
+<p>然后重启Nginx：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo service nginx restart</span><br></pre></td></tr></table></figure>
+
 <p>这样就可以通过<code>http://139.159.***.***/</code>访问到你的应用了。</p>
 
     </div>
@@ -323,6 +331,26 @@
 <script src="/js/third-party/math/mathjax.js"></script>
 
 
+<script src="https://cdn.jsdelivr.net/npm/darkmode-js@1.5.7/lib/darkmode-js.min.js"></script>
+
+<script>
+var options = {
+  bottom: '64px',
+  right: 'unset',
+  left: '32px',
+  time: '0.5s',
+  mixColor: 'transparent',
+  backgroundColor: 'transparent',
+  buttonColorDark: '#100f2c',
+  buttonColorLight: '#fff',
+  saveInCookies: true,
+  label: '🌓',
+  autoMatchOsTheme: true
+}
+const darkmode = new Darkmode(options);
+window.darkmode = darkmode;
+darkmode.showWidget();
+</script>
 <script class="next-config" data-name="giscus" type="application/json">{"enable":true,"repo":"BetterAndBetterII/BetterAndBetterII.github.io","repo_id":"R_kgDOK5hhiQ","category":"Ideas","category_id":"DIC_kwDOK5hhic4Cbv_t","mapping":"pathname","reactions_enabled":1,"emit_metadata":1,"theme":"light","lang":"zh-CN","crossorigin":"anonymous","input_position":"bottom","loading":"lazy"}</script>
 
 <script>
@@ -349,26 +377,6 @@ document.addEventListener('page:loaded', () => {
       parentNode: document.querySelector('.giscus-container')
     }));
 });
-</script>
-<script src="https://cdn.jsdelivr.net/npm/darkmode-js@1.5.7/lib/darkmode-js.min.js"></script>
-
-<script>
-var options = {
-  bottom: '64px',
-  right: 'unset',
-  left: '32px',
-  time: '0.5s',
-  mixColor: 'transparent',
-  backgroundColor: 'transparent',
-  buttonColorDark: '#100f2c',
-  buttonColorLight: '#fff',
-  saveInCookies: true,
-  label: '🌓',
-  autoMatchOsTheme: true
-}
-const darkmode = new Darkmode(options);
-window.darkmode = darkmode;
-darkmode.showWidget();
 </script>
 
 </body>
