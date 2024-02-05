@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.0.0">
+<link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+<link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=HarmonyOS+Sans+Light:300,300italic,400,400italic,700,700italic%7CHarmonyOS+Sans+Blod:300,300italic,400,400italic,700,700italic%7CHarmonyOS+Sans+Regular:300,300italic,400,400italic,700,700italic%7CFira+Code:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha256-yIDrPSXHZdOZhAqiBP7CKzIwMQmRCJ8UeB8Jo17YC4o=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/themes/black/pace-theme-minimal.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/pace.min.js" integrity="sha256-gqd7YTjg/BtfqWSwsJOvndl0Bxc8gFImLEkXQT8+qj0=" crossorigin="anonymous"></script>
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"betterspace.top","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.19.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":"mac"},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":false,"nav":null},"stickytabs":true,"motion":{"enable":false,"async":true,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="习惯了Electron的开发模式，我想用Java简单地模仿Chromium的架构，实现一个类似Electron的框架。毕竟，Electron的性能问题一直是人们诟病的地方，而Java作为一门成熟的语言，性能上有着很大的优势。当然,Chromium的架构非常复杂,这里只是一个简单的模仿.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="用Java简单模仿Chromium的架构">
+<meta property="og:url" content="http://betterspace.top/2024/02/05/%E7%94%A8Java%E7%AE%80%E5%8D%95%E6%A8%A1%E4%BB%BFChromium%E7%9A%84%E6%9E%B6%E6%9E%84/index.html">
+<meta property="og:site_name" content="BetterSpace">
+<meta property="og:description" content="习惯了Electron的开发模式，我想用Java简单地模仿Chromium的架构，实现一个类似Electron的框架。毕竟，Electron的性能问题一直是人们诟病的地方，而Java作为一门成熟的语言，性能上有着很大的优势。当然,Chromium的架构非常复杂,这里只是一个简单的模仿.">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2024-02-05T03:08:39.000Z">
+<meta property="article:modified_time" content="2024-02-05T05:13:25.425Z">
+<meta property="article:author" content="越来越好的鸡翅">
+<meta property="article:tag" content="Java">
+<meta property="article:tag" content="Electron">
+<meta property="article:tag" content="Chromium">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://betterspace.top/2024/02/05/%E7%94%A8Java%E7%AE%80%E5%8D%95%E6%A8%A1%E4%BB%BFChromium%E7%9A%84%E6%9E%B6%E6%9E%84/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://betterspace.top/2024/02/05/%E7%94%A8Java%E7%AE%80%E5%8D%95%E6%A8%A1%E4%BB%BFChromium%E7%9A%84%E6%9E%B6%E6%9E%84/","path":"2024/02/05/用Java简单模仿Chromium的架构/","title":"用Java简单模仿Chromium的架构"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>用Java简单模仿Chromium的架构 | BetterSpace</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<style>.darkmode--activated{--body-bg-color:#282828;--content-bg-color:#333;--card-bg-color:#555;--text-color:#ccc;--blockquote-color:#bbb;--link-color:#ccc;--link-hover-color:#eee;--brand-color:#ddd;--brand-hover-color:#ddd;--table-row-odd-bg-color:#282828;--table-row-hover-bg-color:#363636;--menu-item-bg-color:#555;--btn-default-bg:#222;--btn-default-color:#ccc;--btn-default-border-color:#555;--btn-default-hover-bg:#666;--btn-default-hover-color:#ccc;--btn-default-hover-border-color:#666;--highlight-background:#282b2e;--highlight-foreground:#a9b7c6;--highlight-gutter-background:#34393d;--highlight-gutter-foreground:#9ca9b6}.darkmode--activated img{opacity:.75}.darkmode--activated img:hover{opacity:.9}.darkmode--activated code{color:#69dbdc;background:0 0}button.darkmode-toggle{z-index:9999}.darkmode-ignore,img{display:flex!important}.beian img{display:inline-block!important}</style></head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">BetterSpace</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">A space for better world.</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Chromium%E6%9E%B6%E6%9E%84%E7%AE%80%E4%BB%8B"><span class="nav-number">1.</span> <span class="nav-text">Chromium架构简介</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#ResourceDispatcherHost"><span class="nav-number">1.1.</span> <span class="nav-text">ResourceDispatcherHost</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#IPC%E9%80%9A%E4%BF%A1"><span class="nav-number">1.2.</span> <span class="nav-text">IPC通信</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B8%B2%E6%9F%93%E8%BF%9B%E7%A8%8B"><span class="nav-number">1.3.</span> <span class="nav-text">渲染进程</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Java%E6%A8%A1%E4%BB%BFChromium%E6%9E%B6%E6%9E%84"><span class="nav-number">2.</span> <span class="nav-text">Java模仿Chromium架构</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8B%E4%BB%B6%E5%A4%84%E7%90%86%E5%92%8C%E6%B6%88%E6%81%AF%E4%BC%A0%E9%80%92"><span class="nav-number">2.1.</span> <span class="nav-text">事件处理和消息传递</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B8%B2%E6%9F%93%E8%BF%9B%E7%A8%8B%E7%9A%84%E5%9F%BA%E6%9C%AC%E5%AE%9E%E7%8E%B0"><span class="nav-number">2.2.</span> <span class="nav-text">渲染进程的基本实现</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E9%A1%B5%E9%9D%A2%E7%AE%A1%E7%90%86%E5%92%8C%E5%88%87%E6%8D%A2"><span class="nav-number">2.2.1.</span> <span class="nav-text">1. 页面管理和切换</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E4%BA%8B%E4%BB%B6%E5%A4%84%E7%90%86%E5%92%8C%E6%B6%88%E6%81%AF%E4%BC%A0%E9%80%92"><span class="nav-number">2.2.2.</span> <span class="nav-text">2. 事件处理和消息传递</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E5%B0%81%E8%A3%85JavaFX%E7%BB%84%E4%BB%B6"><span class="nav-number">2.2.3.</span> <span class="nav-text">3. 封装JavaFX组件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-%E7%BB%9F%E4%B8%80%E9%A1%B5%E9%9D%A2%E6%B8%B2%E6%9F%93%E9%80%BB%E8%BE%91"><span class="nav-number">2.2.4.</span> <span class="nav-text">4. 统一页面渲染逻辑</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BC%98%E7%82%B9"><span class="nav-number">2.3.</span> <span class="nav-text">优点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E5%AE%9E%E4%BE%8B"><span class="nav-number">2.4.</span> <span class="nav-text">使用实例</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E4%BA%9B%E6%8C%91%E6%88%98"><span class="nav-number">2.5.</span> <span class="nav-text">一些挑战</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8F%AF%E8%83%BD%E7%9A%84%E4%BC%98%E5%8C%96%E4%B8%8E%E6%8F%90%E5%8D%87"><span class="nav-number">3.</span> <span class="nav-text">可能的优化与提升</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">4.</span> <span class="nav-text">总结</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="越来越好的鸡翅"
+      src="/images/avatar.gif">
+  <p class="site-author-name" itemprop="name">越来越好的鸡翅</p>
+  <div class="site-description" itemprop="description">Welcome to BetterSpace!</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">9</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">14</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/BetterAndBetterII" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;BetterAndBetterII" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://betterspace.top/2024/02/05/%E7%94%A8Java%E7%AE%80%E5%8D%95%E6%A8%A1%E4%BB%BFChromium%E7%9A%84%E6%9E%B6%E6%9E%84/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="越来越好的鸡翅">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="BetterSpace">
+      <meta itemprop="description" content="Welcome to BetterSpace!">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="用Java简单模仿Chromium的架构 | BetterSpace">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          用Java简单模仿Chromium的架构
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2024-02-05 11:08:39 / 修改时间：13:13:25" itemprop="dateCreated datePublished" datetime="2024-02-05T11:08:39+08:00">2024-02-05</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><!-- 摘要 -->
+<p>习惯了Electron的开发模式，我想用Java简单地模仿Chromium的架构，实现一个类似Electron的框架。毕竟，Electron的性能问题一直是人们诟病的地方，而Java作为一门成熟的语言，性能上有着很大的优势。当然,Chromium的架构非常复杂,这里只是一个简单的模仿.</p>
+<span id="more"></span>
+
+<h1 id="Chromium架构简介"><a href="#Chromium架构简介" class="headerlink" title="Chromium架构简介"></a>Chromium架构简介</h1><p>Chromium是一个开源的浏览器项目，它的架构非常复杂，但是也非常强大。它的架构图如下：</p>
+<p><a href="/pics/chromium.png">!Chromium架构图</a></p>
+<p>从图中可以看到,Chromium的架构分为多个层次，核心是一个Main Thread</p>
+<p>然后浏览器通过IPC通信与渲染进程Render通信. 每个Render进程都有一个独立的渲染线程，用于渲染网页。</p>
+<p>这样的架构使得Chromium非常稳定，同时也非常高效。</p>
+<p>这样独立每个的渲染进程使得Chromium的鲁棒性更好,各个模块之间的耦合度更低,同时也更容易实现多进程并行处理。</p>
+<p>Electron也使用了类似的架构，但是它是基于Node.js的. </p>
+<p>Electron中,主要的模块为Main.js, preload.js, 和Render.js. </p>
+<p>Main.js负责创建窗口，处理窗口事件，preload.js负责在渲染进程中注入一些Node.js的API, Render.js负责渲染网页。</p>
+<p>而要在Java中模仿这样的架构,我们需要先搞清楚Chromium的架构更多细节.</p>
+<h2 id="ResourceDispatcherHost"><a href="#ResourceDispatcherHost" class="headerlink" title="ResourceDispatcherHost"></a>ResourceDispatcherHost</h2><p>ResourceDispatcherHost是Chromium中的一个重要模块，它负责处理网络请求。它的主要功能是将网络请求分发给不同的Render进程，然后将渲染结果返回给浏览器进程。这样的架构使得Chromium的网络请求非常高效。</p>
+<p>假设我们是Render进程,如果我们要加载一个网页的图片,我们会向ResourceDispatcherHost发送一个请求.实际处理网络请求的是ResourceDispatcherHost,而Render只负责渲染结果.</p>
+<h2 id="IPC通信"><a href="#IPC通信" class="headerlink" title="IPC通信"></a>IPC通信</h2><p>Chromium中的IPC通信是非常重要的，它负责浏览器进程和渲染进程之间的通信。IPC通信的实现也是分发器.在Java中,我们可以简单地使用共享内存来实现IPC通信.</p>
+<h2 id="渲染进程"><a href="#渲染进程" class="headerlink" title="渲染进程"></a>渲染进程</h2><p>渲染进程是Chromium中的一个重要模块，它负责渲染网页。渲染进程是一个独立的进程，它有自己的渲染线程，用于渲染网页。在Java中,我将采用JavaFX来实现渲染进程.</p>
+<h1 id="Java模仿Chromium架构"><a href="#Java模仿Chromium架构" class="headerlink" title="Java模仿Chromium架构"></a>Java模仿Chromium架构</h1><h2 id="事件处理和消息传递"><a href="#事件处理和消息传递" class="headerlink" title="事件处理和消息传递"></a>事件处理和消息传递</h2><p>在Java中,我们首先需要创建一个事件监听系统。</p>
+<p>这个系统能够让不同的组件注册事件监听器，并在特定事件发生时调用这些监听器。</p>
+<p>这样的设计模式可以让我们在Java中模仿类似Electron的事件监听和处理机制。</p>
+<ol>
+<li><p><strong>事件类（Event）</strong>:</p>
+<ul>
+<li>定义一个事件类，用于封装事件信息。这个类可以包含事件类型、源、以及任何相关数据。</li>
+</ul>
+</li>
+<li><p><strong>事件监听器接口（EventListener）</strong>:</p>
+<ul>
+<li>创建一个事件监听器接口，定义一个方法，例如<code>onEvent(Event event)</code>，用于处理事件。</li>
+</ul>
+</li>
+<li><p><strong>事件分发器（EventDispatcher）</strong>:</p>
+<ul>
+<li>管理事件监听器的注册和注销。</li>
+<li>负责在事件发生时通知所有注册的监听器。</li>
+</ul>
+</li>
+<li><p><strong>IPC通信类（IPCCommunication）</strong>:</p>
+<ul>
+<li>用于进程间的通信。</li>
+<li>能够发送事件和接收来自其他进程的事件。</li>
+<li>当接收到事件时，将其封装为<code>Event</code>对象并通过<code>EventDispatcher</code>分发。</li>
+</ul>
+</li>
+<li><p><strong>具体的事件处理类</strong>:</p>
+<ul>
+<li>实现<code>EventListener</code>接口，定义对特定事件的响应逻辑。</li>
+</ul>
+</li>
+</ol>
+<p>以下是一个简单的代码示例来说明这些概念：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@FunctionalInterface</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">Callback</span> &#123;</span><br><span class="line">    <span class="keyword">void</span> <span class="title function_">call</span><span class="params">(String data)</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 事件类，支持传输数据/回调函数</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Event</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> String type;</span><br><span class="line">    <span class="keyword">private</span> Object data;  <span class="comment">// 添加数据字段,一般采用JsonObject</span></span><br><span class="line">    <span class="keyword">private</span> Callback callback; <span class="comment">// 添加回调字段</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">Event</span><span class="params">(String type, Object data)</span> &#123;</span><br><span class="line">        <span class="comment">// 没有回调函数的构造函数</span></span><br><span class="line">        <span class="built_in">this</span>.type = type;</span><br><span class="line">        <span class="built_in">this</span>.data = data;</span><br><span class="line">        <span class="built_in">this</span>.callback = <span class="literal">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">Event</span><span class="params">(String type, Object data, Callback callback)</span> &#123;</span><br><span class="line">        <span class="comment">// 有回调函数的构造函数</span></span><br><span class="line">        <span class="built_in">this</span>.type = type;</span><br><span class="line">        <span class="built_in">this</span>.data = data;</span><br><span class="line">        <span class="built_in">this</span>.callback = callback;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Getter 和 Setter</span></span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">getType</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> type;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setType</span><span class="params">(String type)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.type = type;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> Object <span class="title function_">getData</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> data;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setData</span><span class="params">(Object data)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.data = data;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> Callback <span class="title function_">getCallback</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> callback;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setCallback</span><span class="params">(Callback callback)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.callback = callback;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 其他可选代码...</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 事件监听器接口</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">EventListener</span> &#123;</span><br><span class="line">    <span class="keyword">void</span> <span class="title function_">onEvent</span><span class="params">(Event event)</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 事件分发器</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">EventDispatcher</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> Map&lt;String, List&lt;EventListener&gt;&gt; listeners = <span class="keyword">new</span> <span class="title class_">HashMap</span>&lt;&gt;();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">registerListener</span><span class="params">(String eventType, EventListener listener)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.listeners.computeIfAbsent(eventType, k -&gt; <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;()).add(listener);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">unregisterListener</span><span class="params">(String eventType, EventListener listener)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.listeners.getOrDefault(eventType, <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;()).remove(listener);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">dispatchEvent</span><span class="params">(Event event)</span> &#123;</span><br><span class="line">        List&lt;EventListener&gt; eventListeners = listeners.getOrDefault(event.getType(), <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;());</span><br><span class="line">        <span class="keyword">for</span> (EventListener listener : eventListeners) &#123;</span><br><span class="line">            listener.onEvent(event);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// IPC通信类</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">IPCCommunication</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> EventDispatcher dispatcher;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">IPCCommunication</span><span class="params">(EventDispatcher dispatcher)</span> &#123;  <span class="comment">// dispatcher 在main中创建，传入IPC中</span></span><br><span class="line">        <span class="built_in">this</span>.dispatcher = dispatcher;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">sendMessage</span><span class="params">(String message)</span> &#123;</span><br><span class="line">        <span class="comment">// 类似于IPC中注册的回调函数，在render中被调用，发送消息给main</span></span><br><span class="line">        <span class="comment">// main中注册的EventListener会被调用</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">// 解析消息，创建事件</span></span><br><span class="line">        <span class="type">Event</span> <span class="variable">event</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Event</span>(<span class="string">&quot;send-message&quot;</span>, message);</span><br><span class="line">        <span class="comment">// ... 解析逻辑 ...</span></span><br><span class="line">        dispatcher.dispatchEvent(event);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Render</span> <span class="keyword">extends</span> <span class="title class_">Thread</span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> IPCCommunication ipc;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">Render</span><span class="params">(IPCCommunication ipc)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.ipc = ipc;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">run</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="comment">// 创建事件监听器</span></span><br><span class="line">        <span class="comment">// ...</span></span><br><span class="line">        <span class="comment">// IPC通信接收到消息时，会调用事件分发器的dispatchEvent方法</span></span><br><span class="line">        <span class="comment">// 事件分发器会调用所有注册的监听器的onEvent方法</span></span><br><span class="line">        <span class="comment">// ...</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">// 入口，渲染默认页面</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// main进程中</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Main</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        <span class="comment">// 创建事件分发器</span></span><br><span class="line">        <span class="type">EventDispatcher</span> <span class="variable">dispatcher</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">EventDispatcher</span>();</span><br><span class="line">        <span class="comment">// 创建IPC通信类</span></span><br><span class="line">        <span class="type">IPCCommunication</span> <span class="variable">ipc</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">IPCCommunication</span>(dispatcher);</span><br><span class="line">        <span class="comment">// 启动渲染进程</span></span><br><span class="line">        <span class="keyword">new</span> <span class="title class_">Thread</span>(<span class="keyword">new</span> <span class="title class_">Render</span>(ipc)).start();</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 具体的事件处理类，以QuickHideAndShowListener举例</span></span><br><span class="line">        <span class="comment">// 监听器在main中注册</span></span><br><span class="line">        <span class="keyword">class</span> <span class="title class_">QuickHideAndShowListener</span> <span class="keyword">implements</span> <span class="title class_">EventListener</span> &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">onEvent</span><span class="params">(Event event)</span> &#123;</span><br><span class="line">                <span class="keyword">if</span> (<span class="string">&quot;set-quick-hide-and-show&quot;</span>.equals(event.getType())) &#123;</span><br><span class="line">                    <span class="comment">// 处理事件</span></span><br><span class="line">                    System.out.println(<span class="string">&quot;set quickHideAndShow&quot;</span> + event.getData());</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 创建事件监听器并且注册事件监听器</span></span><br><span class="line">        dispatcher.registerListener(<span class="string">&quot;set-quick-hide-and-show&quot;</span>, <span class="keyword">new</span> <span class="title class_">QuickHideAndShowListener</span>()); <span class="comment">// 也可以采用匿名类的定义方法更简洁</span></span><br><span class="line">        <span class="comment">// ...</span></span><br><span class="line">        <span class="comment">// IPC通信接收到消息时，会调用事件分发器的dispatchEvent方法</span></span><br><span class="line">        <span class="comment">// 事件分发器会调用所有注册的监听器的onEvent方法</span></span><br><span class="line">        <span class="comment">// ...</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在这个设计中，在主进程中创建<code>EventDispatcher</code>和<code>IPCCommunication</code>的实例，并在<code>QuickHideAndShowListener</code>中定义对特定事件的处理逻辑。然后，当IPC通信接收到消息时，它会创建一个事件并通过<code>EventDispatcher</code>分发给所有注册的监听器。这种设计模式允许在Java中模拟类似Electron的事件监听和处理机制。</p>
+<p>我们使用<code>IPCCommunication</code>类来实现Preload的功能。IPCCommunication充当了Preload的角色，可以给Render提供一些能力，例如发送消息给主进程。</p>
+<h2 id="渲染进程的基本实现"><a href="#渲染进程的基本实现" class="headerlink" title="渲染进程的基本实现"></a>渲染进程的基本实现</h2><p>由于使用JavaFX作为GUI框架，我们可以包装一些JavaFX的功能。</p>
+<h3 id="1-页面管理和切换"><a href="#1-页面管理和切换" class="headerlink" title="1. 页面管理和切换"></a>1. 页面管理和切换</h3><p>首先，我们定义一个<code>PageInterface</code>，每个页面类都实现这个接口, 每个页面都需要有一个render函数(render函数中用JavaFX展示页面)。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">PageInterface</span> &#123;</span><br><span class="line">    <span class="keyword">void</span> <span class="title function_">render</span><span class="params">(Stage stage)</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这样，所有页面都实现<code>PageInterface</code>。这个接口中的<code>render</code>方法负责在给定的<code>Stage</code>上渲染页面。</p>
+<h3 id="2-事件处理和消息传递"><a href="#2-事件处理和消息传递" class="headerlink" title="2. 事件处理和消息传递"></a>2. 事件处理和消息传递</h3><p>要处理用户的操作，如按钮点击和输入验证，您可以在每个页面内部定义事件处理器。例如，对于按钮点击事件，您可以在<code>ConnectPage</code>内部定义一个方法来处理连接操作。<br>示例如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">ConnectPage</span> <span class="keyword">implements</span> <span class="title class_">PageInterface</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">void</span> <span class="title function_">handleConnectButtonClick</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="comment">// 处理连接按钮点击事件</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">render</span><span class="params">(Stage stage)</span> &#123;</span><br><span class="line">        <span class="comment">// ... 设置连接页面的布局和组件 ...</span></span><br><span class="line">        <span class="type">Button</span> <span class="variable">connectButton</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Button</span>(<span class="string">&quot;Connect&quot;</span>);</span><br><span class="line">        connectButton.setOnAction(event -&gt; handleConnectButtonClick());</span><br><span class="line">        <span class="comment">// ... 其他组件的设置 ...</span></span><br><span class="line">        stage.show();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-封装JavaFX组件"><a href="#3-封装JavaFX组件" class="headerlink" title="3. 封装JavaFX组件"></a>3. 封装JavaFX组件</h3><p>对于切换页面，您可以在<code>PageInterface</code>中定义一个<code>switchToPage</code>方法，用于切换页面。然后，可以在<code>ConnectPage</code>中调用这个方法来切换到<code>ChatPage</code>。</p>
+<h3 id="4-统一页面渲染逻辑"><a href="#4-统一页面渲染逻辑" class="headerlink" title="4. 统一页面渲染逻辑"></a>4. 统一页面渲染逻辑</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">UIManager</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> Stage primaryStage;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">UIManager</span><span class="params">(Stage primaryStage)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.primaryStage = primaryStage;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">switchToPage</span><span class="params">(PageInterface page)</span> &#123;</span><br><span class="line">        Platform.runLater(() -&gt; page.render(primaryStage));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 切换页面</span></span><br><span class="line"><span class="type">UIManager</span> <span class="variable">uiManager</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">UIManager</span>(primaryStage);</span><br><span class="line"><span class="comment">// 切换到连接页面</span></span><br><span class="line">uiManager.switchToPage(<span class="keyword">new</span> <span class="title class_">ConnectPage</span>());</span><br></pre></td></tr></table></figure>
+
+<h2 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h2><ul>
+<li>通过事件处理和消息传递，可以在Java中模拟类似Electron的事件监听和处理机制。</li>
+<li>通过封装JavaFX组件，可以实现页面管理和切换。</li>
+<li>通过统一页面渲染逻辑，可以简化页面切换的代码。</li>
+</ul>
+<h2 id="使用实例"><a href="#使用实例" class="headerlink" title="使用实例"></a>使用实例</h2><p>用简单的代码完整实现登录功能举个例子：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Main类中</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Main</span> &#123;</span><br><span class="line">    <span class="keyword">class</span> <span class="title class_">login</span> <span class="keyword">implements</span> <span class="title class_">EventListener</span> &#123;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">onEvent</span><span class="params">(Event event)</span> &#123;</span><br><span class="line">            <span class="keyword">if</span> (<span class="string">&quot;login&quot;</span>.equals(event.getType())) &#123;</span><br><span class="line">                <span class="type">JSONObject</span> <span class="variable">json</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">JSONObject</span>(event.getData().toString());</span><br><span class="line">                <span class="type">String</span> <span class="variable">address</span> <span class="operator">=</span> json.get(<span class="string">&quot;address&quot;</span>).toString();</span><br><span class="line">                <span class="type">String</span> <span class="variable">port</span> <span class="operator">=</span> json.get(<span class="string">&quot;port&quot;</span>).toString();</span><br><span class="line">                <span class="type">String</span> <span class="variable">user</span> <span class="operator">=</span> json.get(<span class="string">&quot;user&quot;</span>).toString();</span><br><span class="line">                <span class="comment">// 建立连接</span></span><br><span class="line">                <span class="type">Socket</span> <span class="variable">socket</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Socket</span>(address, Integer.parseInt(port));</span><br><span class="line">                <span class="comment">// ...</span></span><br><span class="line">                <span class="comment">// 先注册事件监听器再发送登录请求</span></span><br><span class="line">                dispatcher.registerListener(<span class="string">&quot;login-success&quot;</span>, <span class="keyword">new</span> <span class="title class_">EventListener</span>() &#123;</span><br><span class="line">                    <span class="meta">@Override</span></span><br><span class="line">                    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">onEvent</span><span class="params">(Event event1)</span> &#123;</span><br><span class="line">                        <span class="keyword">if</span>(event1.getType().equals(<span class="string">&quot;login-success&quot;</span>) &amp;&amp; event1.getData().toString().equals(<span class="string">&quot;success&quot;</span>))&#123;</span><br><span class="line">                            event.getCallback().call(<span class="string">&quot;success&quot;</span>);</span><br><span class="line">                        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                            event.getCallback().call(event1.getData().toString());</span><br><span class="line">                        &#125;</span><br><span class="line">                        dispatcher.unregisterListener(<span class="string">&quot;login-success&quot;</span>, <span class="built_in">this</span>);  <span class="comment">// 注销监听器</span></span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;);  <span class="comment">// 匿名类实现回调函数</span></span><br><span class="line">                sendRequestToServer(<span class="string">&quot;login&quot;</span>, <span class="keyword">new</span> <span class="title class_">JSONObject</span>().put(<span class="string">&quot;user&quot;</span>, user));</span><br><span class="line">                <span class="comment">// 处理接收服务器消息的线程触发login-success事件</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        <span class="comment">// 创建事件分发器</span></span><br><span class="line">        <span class="type">EventDispatcher</span> <span class="variable">dispatcher</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">EventDispatcher</span>();</span><br><span class="line">        <span class="comment">// 创建IPC通信类</span></span><br><span class="line">        <span class="type">IPCCommunication</span> <span class="variable">ipc</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">IPCCommunication</span>(dispatcher);</span><br><span class="line">        <span class="comment">// 启动渲染进程</span></span><br><span class="line">        Render.setIPC(ipc);</span><br><span class="line">        Render.launch(Render.class, args);</span><br><span class="line"></span><br><span class="line">        </span><br><span class="line">        <span class="comment">// 创建事件监听器并且注册事件监听器</span></span><br><span class="line">        dispatcher.registerListener(<span class="string">&quot;login&quot;</span>, <span class="keyword">new</span> <span class="title class_">login</span>());</span><br><span class="line">        <span class="comment">// ...</span></span><br><span class="line">        <span class="comment">// IPC通信接收到消息时，会调用事件分发器的dispatchEvent方法</span></span><br><span class="line">        <span class="comment">// 事件分发器会调用所有注册的监听器的onEvent方法</span></span><br><span class="line">        <span class="comment">// ...</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// IPCCommunication类中</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">IPCCommunication</span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">login</span><span class="params">(JSONObject data, Callback callback)</span> &#123;</span><br><span class="line">        <span class="type">Event</span> <span class="variable">event</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Event</span>(<span class="string">&quot;login&quot;</span>, data, callback);</span><br><span class="line">        dispatcher.dispatchEvent(event);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Render类中</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Render</span> <span class="keyword">extends</span> <span class="title class_">Application</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> IPCCommunication ipc;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">setIPC</span><span class="params">(IPCCommunication i)</span> &#123;</span><br><span class="line">        ipc = i;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">login</span><span class="params">(String address, <span class="type">int</span> port, String user)</span>&#123;  <span class="comment">// 某个button点击事件调用的函数</span></span><br><span class="line">        <span class="type">JSONObject</span> <span class="variable">data</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">JSONObject</span>();</span><br><span class="line">        data.put(<span class="string">&quot;address&quot;</span>, address);</span><br><span class="line">        data.put(<span class="string">&quot;port&quot;</span>, port);</span><br><span class="line">        data.put(<span class="string">&quot;user&quot;</span>, user);</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            ConnectPage.showLoading();</span><br><span class="line">            ipc.login(data, res -&gt; &#123;</span><br><span class="line">                <span class="keyword">if</span>(res.equals(<span class="string">&quot;success&quot;</span>))&#123;</span><br><span class="line">                    logger.info(<span class="string">&quot;login success&quot;</span>);</span><br><span class="line">                    serverMode = <span class="literal">false</span>;</span><br><span class="line">                    ConnectPage.hideLoading();</span><br><span class="line">                    ChatPage.HistoryMode = <span class="literal">false</span>;</span><br><span class="line">                    uiManager.switchToPage(<span class="keyword">new</span> <span class="title class_">ChatPage</span>());</span><br><span class="line">                &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                    logger.error(<span class="string">&quot;login failed: &quot;</span> + res);</span><br><span class="line">                    ConnectPage.showError(res);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            logger.error(<span class="string">&quot;login failed: &quot;</span> + e.getMessage());</span><br><span class="line">            ConnectPage.showError(<span class="string">&quot;login failed&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 某个page中(ConnectPage举例):</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">ConnectPage</span> <span class="keyword">implements</span> <span class="title class_">PageInterface</span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">render</span><span class="params">(Stage primaryStage)</span> &#123;</span><br><span class="line">        <span class="comment">// ... 设置连接页面的布局和组件 ...</span></span><br><span class="line">        <span class="type">Button</span> <span class="variable">connectButton</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Button</span>(<span class="string">&quot;Connect&quot;</span>);</span><br><span class="line">        connectButton.setOnAction(event -&gt; &#123;</span><br><span class="line">            <span class="comment">// 处理连接按钮点击事件</span></span><br><span class="line">            Render.login(address, port, user);</span><br><span class="line">        &#125;);</span><br><span class="line">        <span class="comment">// ... 其他组件的设置 ...</span></span><br><span class="line">        primaryStage.show();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="一些挑战"><a href="#一些挑战" class="headerlink" title="一些挑战"></a>一些挑战</h2><ol>
+<li>Java虚拟机的内存管理方式与Electron的V8引擎有很大不同，这可能会对性能和资源管理产生影响。</li>
+<li>JavaFX强制需要在主线程中运行,对于任何修改,都必须添加到修改队列,然后稍后执行，这可能会对性能产生影响。</li>
+<li>这个模仿未在性能上进行优化，可能会有性能问题。</li>
+</ol>
+<h1 id="可能的优化与提升"><a href="#可能的优化与提升" class="headerlink" title="可能的优化与提升"></a>可能的优化与提升</h1><ol>
+<li>使用线程池来处理事件分发，以提高性能。目前的设计中,事件都是同步事件,如果事件处理时间过长,会阻塞主线程.后续需要添加异步事件的支持</li>
+<li>目前主进程如果需要调用渲染进程的函数,直接使用了静态函数,这样的设计耦合度较高,后续需要添加更好的设计模式来解耦</li>
+<li>目前的设计中,事件分发器是单例模式,这样的设计可能会导致线程安全问题,后续需要添加线程安全的支持</li>
+<li>目前的设计都是基于单窗口的应用考虑的,对于多窗口的进程管理与通信,还需要进一步的设计与实现</li>
+<li>对于目前用事件分发来实现的回调函数,后续可以进一步包装成Promise模式,使得代码更加简洁</li>
+<li>在评论区补充吧…</li>
+</ol>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>对于Java桌面端应用的开发,可能这个只是一个初步的尝试. 希望这个设计可以提高开发的效率~</p>
+<p>github仓库链接:<br><a target="_blank" rel="noopener" href="https://github.com/BetterAndBetterII/JElectron-Gomoku/">JElectron-demo</a></p>
+<p>参考资料:</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/615592717">知乎 Chromium 多进程架构【Chromium 翻译系列】</a></li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Java/" rel="tag"># Java</a>
+              <a href="/tags/Electron/" rel="tag"># Electron</a>
+              <a href="/tags/Chromium/" rel="tag"># Chromium</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2023/12/21/GPTSider%EF%BC%8C%E4%BD%A0%E7%9A%84%E6%A1%8C%E9%9D%A2AI%E5%8A%A9%E6%89%8B/" rel="prev" title="GPTSider，你的桌面AI助手">
+                  <i class="fa fa-angle-left"></i> GPTSider，你的桌面AI助手
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    
+  
+  <div class="comments giscus-container">
+  </div>
+  
+  
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">越来越好的鸡翅</span>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/BetterAndBetterII" class="github-corner" title="在 GitHub 上关注我" aria-label="在 GitHub 上关注我" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script size="300" alpha="0.6" zIndex="-1" src="https://cdnjs.cloudflare.com/ajax/libs/ribbon.js/1.0.2/ribbon.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/next-boot.js"></script>
+
+  
+  <script class="next-config" data-name="pdf" type="application/json">{"object_url":{"url":"https://cdnjs.cloudflare.com/ajax/libs/pdfobject/2.2.12/pdfobject.min.js","integrity":"sha256-g2xji1rlE3KsGVClvuxTbcR0Kn2+wtQADSff2Tbb4zA="},"url":"/lib/pdf/web/viewer.html"}</script>
+  <script src="/js/third-party/tags/pdf.js"></script>
+
+
+
+
+  <script src="/js/third-party/pace.js"></script>
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","cdn":"//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+<script class="next-config" data-name="giscus" type="application/json">{"enable":true,"repo":"BetterAndBetterII/BetterAndBetterII.github.io","repo_id":"R_kgDOK5hhiQ","category":"Ideas","category_id":"DIC_kwDOK5hhic4Cbv_t","mapping":"pathname","reactions_enabled":1,"emit_metadata":1,"theme":"light","lang":"zh-CN","crossorigin":"anonymous","input_position":"bottom","loading":"lazy"}</script>
+
+<script>
+document.addEventListener('page:loaded', () => {
+  if (!CONFIG.page.comments) return;
+
+  NexT.utils.loadComments('.giscus-container')
+    .then(() => NexT.utils.getScript('https://giscus.app/client.js', {
+      attributes: {
+        async                   : true,
+        crossOrigin             : 'anonymous',
+        'data-repo'             : CONFIG.giscus.repo,
+        'data-repo-id'          : CONFIG.giscus.repo_id,
+        'data-category'         : CONFIG.giscus.category,
+        'data-category-id'      : CONFIG.giscus.category_id,
+        'data-mapping'          : CONFIG.giscus.mapping,
+        'data-reactions-enabled': CONFIG.giscus.reactions_enabled,
+        'data-emit-metadata'    : CONFIG.giscus.emit_metadata,
+        'data-theme'            : CONFIG.giscus.theme,
+        'data-lang'             : CONFIG.giscus.lang,
+        'data-input-position'   : CONFIG.giscus.input_position,
+        'data-loading'          : CONFIG.giscus.loading
+      },
+      parentNode: document.querySelector('.giscus-container')
+    }));
+});
+</script>
+<script src="https://cdn.jsdelivr.net/npm/darkmode-js@1.5.7/lib/darkmode-js.min.js"></script>
+
+<script>
+var options = {
+  bottom: '64px',
+  right: 'unset',
+  left: '32px',
+  time: '0.5s',
+  mixColor: 'transparent',
+  backgroundColor: 'transparent',
+  buttonColorDark: '#100f2c',
+  buttonColorLight: '#fff',
+  saveInCookies: true,
+  label: '🌓',
+  autoMatchOsTheme: true
+}
+const darkmode = new Darkmode(options);
+window.darkmode = darkmode;
+darkmode.showWidget();
+</script>
+
+</body>
+</html>
